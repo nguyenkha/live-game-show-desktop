@@ -11,7 +11,234 @@
     <title>Hello World!</title>
   </head>
   <body>
-    <button id='sample-btn' class='btn btn-default'>Sample</button>
+<!--     <button id='sample-btn' class='btn btn-default'>Sample</button> -->
+
+    <section class="success" id="list-questions-screen" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <h2 class="text-center">List Your Questions </h2>
+                    <button class='btn btn-default pull-right' data-toggle="modal" data-target="#questionModal">Add Question</button>
+                    <hr class="star-light">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-2">
+                    
+                  <div class="panel-group" id="accordion-list-question">
+                    <!-- <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Question 01: 1 + 1 =?</a>
+                          <button class="btn btn-default pull-right">Delete</button>
+                        </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                          <ul data-role="listview">
+                            <li><a href="#">A: <span class="ui-li-count">1</span></a></li>
+                            <li><a href="#">B: <span class="ui-li-count">2</span></a></li>
+                            <li><a href="#">C: <span class="ui-li-count">3</span></a></li>
+                            <li><a href="#">D: <span class="ui-li-count">4</span></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <button href="#" class="btn btn-lg btn-success" id="startGameShowBtn">
+                        <i class="fa fa-download"></i> Start Game Show 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Begin Session Game Show Page-->
+    <section class="success" id="game-show-screen" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <h2 class="text-center">Live Game Show </h2>
+                    <hr class="star-light">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-2">
+                    
+                  <div class="panel-group">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a>Live Video:</a>
+                          
+                        </h4>
+                      </div>
+                      <div id="">
+                        <div class="panel-body" style="height:400px">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                    
+                </div>
+                <div class="col-lg-4">
+                    
+                    <div class="panel-group" id="question-content">
+                    <!-- <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a href="#collapse1">Question 01: 1 + 1 =?</a>
+                          <button class="btn btn-default pull-right">Delete</button>
+                        </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                          <ul data-role="listview">
+                            <li><a href="#">A: <span class="ui-li-count">1</span></a></li>
+                            <li><a href="#">B: <span class="ui-li-count">2</span></a></li>
+                            <li><a href="#">C: <span class="ui-li-count">3</span></a></li>
+                            <li><a href="#">D: <span class="ui-li-count">4</span></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+
+
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                  <button href="#" class="btn btn-lg btn-success" id="startQuestionBtn">
+                        <i class="fa fa-download"></i> Start
+                    </button>
+                    <button href="#" class="btn btn-lg btn-info" id="nextQuestionBtn">
+                        <i class="fa fa-download"></i> Next
+                    </button>
+                    <button href="#" class="btn btn-lg btn-danger" id="stopGameShowBtn">
+                        <i class="fa fa-download"></i> Stop
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Session Game Show Page-->
+
+
+
+ <!-- Begin Session Result Page-->
+    <section class="success" id="game-result-screen" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <h2 class="text-center">Game Result </h2>
+                    <hr class="star-light">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-2">
+                    
+                  <div class="panel-group">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title" style="text-align: center;">
+                          <img class="img-circle text-center" src="img/profile-temp.jpg" style="width: 150px; height:150px" >
+                        </h4>
+
+                        <ul data-role="listview">
+                            <li>Facebook User Id:  <a href="facebook-user-id">vohoailen</a></li>
+                            <li>Facebook Name:  <span id="facebook-name">Vo Hoai Len</span></li>
+                            <li>Total Score:  <span id="facebook-total-score">100</span></li>
+                        </ul>
+
+                        
+                      </div>
+                    </div>
+                  </div>
+
+                    
+                </div>
+                <div class="col-lg-4">
+                    
+                    <div class="panel-group" id="question-content">
+                    <!-- <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a href="#collapse1">Question 01: 1 + 1 =?</a>
+                          <button class="btn btn-default pull-right">Delete</button>
+                        </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                          <ul data-role="listview">
+                            <li><a href="#">A: <span class="ui-li-count">1</span></a></li>
+                            <li><a href="#">B: <span class="ui-li-count">2</span></a></li>
+                            <li><a href="#">C: <span class="ui-li-count">3</span></a></li>
+                            <li><a href="#">D: <span class="ui-li-count">4</span></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+
+
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Session Result Page-->
+
+
+
+<!-- Begin Add Question Modal -->
+    <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add New Question:</h4>
+          </div>
+          <div class="modal-body">
+            <p> Description: </p>
+            <textarea class="form-control" rows="5" id="question-description"></textarea>
+
+            <div class="radio">
+              <label><input type="radio" name="optradio" value="1">Answer A:</label>
+              <input type="text" class="form-control" id="answerA">
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio" value="2">Answer B:</label>
+              <input type="text" class="form-control" id="answerB">
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio" value="3">Answer C:</label>
+              <input type="text" class="form-control" id="answerC">
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio" value="4">Answer D:</label>
+              <input type="text" class="form-control" id="answerD">
+            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveQuestionBtn">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- End Add Question Modal -->
+
+
   </body>
 
   <script>
