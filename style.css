@@ -28,3 +28,8 @@
   background-image: url(./img/facebook-icon.png);
   margin: 0 auto;
 }
+
+#gum {
+  width: 100%;
+  height: 100%;
+}
