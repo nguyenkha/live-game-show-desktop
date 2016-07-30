@@ -1,0 +1,65 @@
+ffmpeg	/Users/dao/work/test/electron-quick-start/webcam1.js	/^var ffmpeg = require('fluent-ffmpeg');$/;"	variable	line:2
+ffmpegCommand	/Users/dao/work/test/electron-quick-start/webcam1.js	/^var ffmpegCommand;$/;"	variable	line:3
+outputStream	/Users/dao/work/test/electron-quick-start/webcam1.js	/^var outputStream = fs.createWriteStream('outputfile.mp4');;$/;"	variable	line:4
+webcamPrep	/Users/dao/work/test/electron-quick-start/webcam1.js	/^function webcamPrep(){$/;"	function	line:20
+webcamPrep	/Users/dao/work/test/electron-quick-start/webcam1.js	/^function webcamPrep(){$/;"	function	line:20
+playVideo	/Users/dao/work/test/electron-quick-start/webcam1.js	/^function playVideo(){$/;"	function	line:46
+var.constraints.audio	/Users/dao/work/test/electron-quick-start/webcam1.js	/^    var constraints = {$/;"	property	line:50
+var.constraints.video	/Users/dao/work/test/electron-quick-start/webcam1.js	/^      audio: true,$/;"	property	line:51
+playVideo	/Users/dao/work/test/electron-quick-start/webcam1.js	/^function playVideo(){$/;"	function	line:46
+chunks	/Users/dao/work/test/electron-quick-start/webcam1.js	/^    var chunks = [];$/;"	variable	line:60
+onSuccess	/Users/dao/work/test/electron-quick-start/webcam1.js	/^    var onSuccess = function(stream) {$/;"	function	line:62
+onSuccess	/Users/dao/work/test/electron-quick-start/webcam1.js	/^    var onSuccess = function(stream) {$/;"	function	line:62
+onError	/Users/dao/work/test/electron-quick-start/webcam1.js	/^    var onError = function(err) {$/;"	function	line:127
+onError	/Users/dao/work/test/electron-quick-start/webcam1.js	/^    var onError = function(err) {$/;"	function	line:127
+html	/Users/dao/work/test/electron-quick-start/index.html	/^<html>$/;"	function	line:2
+head	/Users/dao/work/test/electron-quick-start/index.html	/^<head>$/;"	function	line:3
+body	/Users/dao/work/test/electron-quick-start/index.html	/^<body>$/;"	function	line:7
+div	/Users/dao/work/test/electron-quick-start/index.html	/^  <div id="container">$/;"	function	line:9
+video	/Users/dao/work/test/electron-quick-start/index.html	/^    <video id="gum" autoplay muted><\/video>$/;"	function	line:10
+video	/Users/dao/work/test/electron-quick-start/index.html	/^    <video id="recorded" autoplay loop><\/video>$/;"	function	line:11
+div	/Users/dao/work/test/electron-quick-start/index.html	/^    <div>$/;"	function	line:13
+button	/Users/dao/work/test/electron-quick-start/index.html	/^      <button id="record">Start Recording<\/button>$/;"	function	line:14
+button	/Users/dao/work/test/electron-quick-start/index.html	/^      <button id="play" disabled>Play<\/button>$/;"	function	line:15
+button	/Users/dao/work/test/electron-quick-start/index.html	/^      <button id="download" disabled>Download<\/button>$/;"	function	line:16
+script	/Users/dao/work/test/electron-quick-start/index.html	/^  <script src="adapter.js"><\/script>$/;"	function	line:21
+script	/Users/dao/work/test/electron-quick-start/index.html	/^  <script src="webcam.js"><\/script>$/;"	function	line:22
+ffmpeg	/Users/dao/work/test/electron-quick-start/webcam.js	/^var ffmpeg = require('fluent-ffmpeg');$/;"	variable	line:5
+ffmpegCommand	/Users/dao/work/test/electron-quick-start/webcam.js	/^var ffmpegCommand;$/;"	variable	line:6
+outputStream	/Users/dao/work/test/electron-quick-start/webcam.js	/^var outputStream = fs.createWriteStream('outputfile.mp4');;$/;"	variable	line:7
+mediaRecorder	/Users/dao/work/test/electron-quick-start/webcam.js	/^var mediaRecorder;$/;"	variable	line:11
+recordedBlobs	/Users/dao/work/test/electron-quick-start/webcam.js	/^var recordedBlobs;$/;"	variable	line:12
+sourceBuffer	/Users/dao/work/test/electron-quick-start/webcam.js	/^var sourceBuffer;$/;"	variable	line:13
+gumVideo	/Users/dao/work/test/electron-quick-start/webcam.js	/^var gumVideo = document.querySelector('video#gum');$/;"	variable	line:15
+recordedVideo	/Users/dao/work/test/electron-quick-start/webcam.js	/^var recordedVideo = document.querySelector('video#recorded');$/;"	variable	line:16
+recordButton	/Users/dao/work/test/electron-quick-start/webcam.js	/^var recordButton = document.querySelector('button#record');$/;"	variable	line:19
+playButton	/Users/dao/work/test/electron-quick-start/webcam.js	/^var playButton = document.querySelector('button#play');$/;"	variable	line:20
+downloadButton	/Users/dao/work/test/electron-quick-start/webcam.js	/^var downloadButton = document.querySelector('button#download');$/;"	variable	line:21
+isSecureOrigin	/Users/dao/work/test/electron-quick-start/webcam.js	/^var isSecureOrigin = location.protocol === 'https:' ||$/;"	variable	line:27
+constraints.audio	/Users/dao/work/test/electron-quick-start/webcam.js	/^var constraints = {$/;"	property	line:38
+constraints.video	/Users/dao/work/test/electron-quick-start/webcam.js	/^  audio: true,$/;"	property	line:39
+handleSuccess	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleSuccess(stream) {$/;"	function	line:43
+handleSuccess	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleSuccess(stream) {$/;"	function	line:43
+handleError	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleError(error) {$/;"	function	line:53
+handleError	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleError(error) {$/;"	function	line:53
+handleSourceOpen	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleSourceOpen(event) {$/;"	function	line:60
+handleSourceOpen	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleSourceOpen(event) {$/;"	function	line:60
+handleDataAvailable	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleDataAvailable(event) {$/;"	function	line:72
+handleDataAvailable	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleDataAvailable(event) {$/;"	function	line:72
+handleStop	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleStop(event) {$/;"	function	line:78
+handleStop	/Users/dao/work/test/electron-quick-start/webcam.js	/^function handleStop(event) {$/;"	function	line:78
+toggleRecording	/Users/dao/work/test/electron-quick-start/webcam.js	/^function toggleRecording() {$/;"	function	line:82
+toggleRecording	/Users/dao/work/test/electron-quick-start/webcam.js	/^function toggleRecording() {$/;"	function	line:82
+startRecording	/Users/dao/work/test/electron-quick-start/webcam.js	/^function startRecording() {$/;"	function	line:94
+startRecording.options.mimeType	/Users/dao/work/test/electron-quick-start/webcam.js	/^  var options = {mimeType: 'video\/webm;codecs=vp9'};$/;"	property	line:96
+options.mimeType	/Users/dao/work/test/electron-quick-start/webcam.js	/^    options = {mimeType: 'video\/webm;codecs=vp8'};$/;"	property	line:99
+options.mimeType	/Users/dao/work/test/electron-quick-start/webcam.js	/^      options = {mimeType: 'video\/webm'};$/;"	property	line:102
+options.mimeType	/Users/dao/work/test/electron-quick-start/webcam.js	/^        options = {mimeType: ''};$/;"	property	line:105
+startRecording	/Users/dao/work/test/electron-quick-start/webcam.js	/^function startRecording() {$/;"	function	line:94
+stopRecording	/Users/dao/work/test/electron-quick-start/webcam.js	/^function stopRecording() {$/;"	function	line:127
+stopRecording	/Users/dao/work/test/electron-quick-start/webcam.js	/^function stopRecording() {$/;"	function	line:127
+play	/Users/dao/work/test/electron-quick-start/webcam.js	/^function play() {$/;"	function	line:133
+play	/Users/dao/work/test/electron-quick-start/webcam.js	/^function play() {$/;"	function	line:133
+download	/Users/dao/work/test/electron-quick-start/webcam.js	/^function download() {$/;"	function	line:150
+setTimeout	/Users/dao/work/test/electron-quick-start/webcam.js	/^  setTimeout(function() {$/;"	function	line:159
+download	/Users/dao/work/test/electron-quick-start/webcam.js	/^function download() {$/;"	function	line:150

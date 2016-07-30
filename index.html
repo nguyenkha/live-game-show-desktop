@@ -1,0 +1,25 @@
+
+<html>
+<head>
+
+</head>
+
+<body>
+
+  <div id="container">
+    <video id="gum" autoplay muted></video>
+    <video id="recorded" autoplay loop></video>
+
+    <div>
+      <button id="record">Start Recording</button>
+      <button id="play" disabled>Play</button>
+      <button id="download" disabled>Download</button>
+    </div>
+  </div>
+
+  <!-- include adapter for srcObject shim -->
+  <script src="adapter.js"></script>
+  <script src="webcam.js"></script>
+
+</body>
+</html>
