@@ -3,8 +3,26 @@
 /* globals MediaRecorder */
 const fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
+var toBuffer = require('blob-to-buffer');
+var spawn = require('child_process').spawn;
+
+// var rtmpUrl = 'rtmp://rtmp-api.facebook.com:80/rtmp/10153895175598865?ds=1&a=AaaMsEom6y00lqsf';
+
+var httpResult;
+var ffmpegCli;
+
+var http = require('http');
+var server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'video/webm');
+  console.log('Hanging http result...');
+  httpResult = res;
+});
+
+server.listen(5000);
+
 var ffmpegCommand;
-var outputStream = fs.createWriteStream('outputfile.mp4');;
+var outputStream = fs.createWriteStream('outputfile.mp4');
 
 var mediaSource = new MediaSource();
 mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
@@ -71,11 +89,21 @@ recordedVideo.addEventListener('error', function(ev) {
 
 function handleDataAvailable(event) {
   if (event.data && event.data.size > 0) {
-    recordedBlobs.push(event.data);
+    var buffer = toBuffer(event.data, function(err, buffer) {
+      if (!err) {
+        // console.log('Write buffer...');
+        httpResult.write(buffer);
+      }
+    });
+    // recordedBlobs.push(event.data);
   }
 }
 
 function handleStop(event) {
+  setTimeout(function() {
+    httpResult.end();
+    console.log('Ending...')
+  }, 5000);
   console.log('Recorder stopped: ', event);
 }
 
@@ -92,36 +120,53 @@ function toggleRecording() {
 
 // The nested try blocks will be simplified when Chrome 47 moves to Stable
 function startRecording() {
-  recordedBlobs = [];
-  var options = {mimeType: 'video/webm;codecs=vp9'};
-  if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-    console.log(options.mimeType + ' is not Supported');
-    options = {mimeType: 'video/webm;codecs=vp8'};
+  // Run ffmpeg cli
+  var ffmpegCli = spawn('ffmpeg', [ '-re', '-i', "http://localhost:5000/", '-c:v', 'libx264', '-preset', 'fast', '-c:a', 'libfdk_aac', '-ab', '128k', '-ar', '44100', '-f', 'flv', document.getElementById('rtmpServerUrl').value ]);
+
+  ffmpegCli.stdout.on('data', (data) => {
+    console.log(`ffmpeg stdout: ${data}`);
+  });
+
+  ffmpegCli.stderr.on('data', (data) => {
+    console.log(`ffmpeg stderr: ${data}`);
+  });
+
+  ffmpegCli.on('close', (code) => {
+    console.log(`ffmpeg process exited with code ${code}`);
+  });
+
+  setTimeout(function() {
+    recordedBlobs = [];
+    var options = {mimeType: 'video/webm;codecs=vp9'};
     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
       console.log(options.mimeType + ' is not Supported');
-      options = {mimeType: 'video/webm'};
+      options = {mimeType: 'video/webm;codecs=vp8'};
       if (!MediaRecorder.isTypeSupported(options.mimeType)) {
         console.log(options.mimeType + ' is not Supported');
-        options = {mimeType: ''};
+        options = {mimeType: 'video/webm'};
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+          console.log(options.mimeType + ' is not Supported');
+          options = {mimeType: ''};
+        }
       }
     }
-  }
-  try {
-    mediaRecorder = new MediaRecorder(window.stream, options);
-  } catch (e) {
-    console.error('Exception while creating MediaRecorder: ' + e);
-    alert('Exception while creating MediaRecorder: '
-      + e + '. mimeType: ' + options.mimeType);
-    return;
-  }
-  console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-  recordButton.textContent = 'Stop Recording';
-  playButton.disabled = true;
-  downloadButton.disabled = true;
-  mediaRecorder.onstop = handleStop;
-  mediaRecorder.ondataavailable = handleDataAvailable;
-  mediaRecorder.start(10); // collect 10ms of data
-  console.log('MediaRecorder started', mediaRecorder);
+    try {
+      mediaRecorder = new MediaRecorder(window.stream, options);
+    } catch (e) {
+      console.error('Exception while creating MediaRecorder: ' + e);
+      alert('Exception while creating MediaRecorder: '
+        + e + '. mimeType: ' + options.mimeType);
+      return;
+    }
+    console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+    recordButton.textContent = 'Stop Recording';
+    playButton.disabled = true;
+    downloadButton.disabled = true;
+    mediaRecorder.onstop = handleStop;
+    mediaRecorder.ondataavailable = handleDataAvailable;
+    mediaRecorder.start(10); // collect 10ms of data
+    console.log('MediaRecorder started', mediaRecorder);
+  }, 3000);
 }
 
 function stopRecording() {
