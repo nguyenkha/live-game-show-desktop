@@ -118,5 +118,3 @@ $('#stopGameShowBtn').click(function()
 	$('#game-show-screen').hide();
 	$('#game-result-screen').show();
 });
-
-

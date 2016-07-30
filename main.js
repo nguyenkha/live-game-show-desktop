@@ -1,6 +1,8 @@
 const electron = require('electron')
+const {ipcMain} = require('electron')
 // Module to control application life.
 const app = electron.app
+const FB  = require('fb')
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -10,10 +12,38 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 800, height: 600,
+    webPreferences: {
+      webSecurity: false,
+      plugins: true
+    }
+  })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  mainWindow.loadURL(`file://${__dirname}/login.html`)
+
+  ipcMain.on("facebook-button-clicked",function (event, arg) {
+    var options = {
+      client_id: '1656785501307920',
+      scopes: "public_profile",
+      redirect_uri: "https://www.facebook.com/connect/login_success.html"
+    };
+    var authWindow = new BrowserWindow({ width: 450, height: 300, show: false, 'node-integration': false });
+    var facebookAuthURL = "https://www.facebook.com/dialog/oauth?client_id=" + options.client_id + "&redirect_uri=" + options.redirect_uri + "&response_type=token,granted_scopes&scope=" + options.scopes + "&display=popup";
+
+    authWindow.loadURL(facebookAuthURL);
+    authWindow.show();
+    authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
+      var raw_code = /access_token=([^&]*)/.exec(newUrl) || null;
+      access_token = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
+      error = /\?error=(.+)$/.exec(newUrl);
+      if (access_token) {
+        FB.setAccessToken(access_token);
+        mainWindow.loadURL(`file://${__dirname}/index.html`)
+      }
+    });
+  });
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
