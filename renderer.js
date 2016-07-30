@@ -20,7 +20,7 @@ $('#create-live-stream').click(function() {
 
 $('#get-comments').click(function() {
   $.ajax({
-    url: 'https://graph.facebook.com/' + _result.id + '/comments',
+    url: 'https://graph.facebook.com/' + _streaming.id + '/comments',
     data: {
       access_token: token,
       limit: 2000
