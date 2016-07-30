@@ -12,6 +12,8 @@ var cur_question_idx = 0;
 $('#game-show-screen').hide();
 $('#game-result-screen').hide();
 $('#startGameShowBtn').prop('disabled', true);
+$("#alert-found-righ-answer").hide();
+
 function addQuestionToList(data)
 {
 	$("#accordion-list-question").append('<div class="panel panel-default" id="accordion-item-' +data.id  + '">' + 
@@ -91,7 +93,10 @@ $('#startQuestionBtn').click(function()
 	if(list_question.length > 1)
 		$('#nextQuestionBtn').prop('disabled', false);
 	$('#stopGameShowBtn').prop('disabled', false);
-	
+
+	$("#alert-found-righ-answer").fadeTo(2000, 500).slideUp(500, function(){
+    	$("#alert-found-righ-answer").alert('close');
+	});	
 
 });
 
