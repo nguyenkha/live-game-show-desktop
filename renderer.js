@@ -144,9 +144,20 @@ $('#startQuestionBtn').click(function()
       privacy: { value: 'EVERYONE' }
     },
     success: function(result) {
-      window.streamObj = result;
+      window.fbStreamObj = result;
 
-      console.log(result);
+      setInterval(function() {
+        $.ajax({
+          url: 'https://graph.facebook.com/' + result.id + '/comments',
+          data: {
+            access_token: token,
+            limit: 2000
+          },
+          success: function(result) {
+            console.log(result);
+          }
+        })
+      }, 2000);
 
       // Run ffmpeg
       var ffmpegCli = spawn('ffmpeg', [ 
@@ -155,17 +166,17 @@ $('#startQuestionBtn').click(function()
         '-c:a', 'libfdk_aac', '-ab', '128k', '-ar', '44100', 
         '-f', 'flv', result.stream_url ]);
 
-      ffmpegCli.stdout.on('data', (data) => {
-        console.log(`ffmpeg stdout: ${data}`);
-      });
+      // ffmpegCli.stdout.on('data', (data) => {
+      //   console.log(`ffmpeg stdout: ${data}`);
+      // });
 
-      ffmpegCli.stderr.on('data', (data) => {
-        console.log(`ffmpeg stderr: ${data}`);
-      });
+      // ffmpegCli.stderr.on('data', (data) => {
+      //   console.log(`ffmpeg stderr: ${data}`);
+      // });
 
-      ffmpegCli.on('close', (code) => {
-        console.log(`ffmpeg process exited with code ${code}`);
-      });
+      // ffmpegCli.on('close', (code) => {
+      //   console.log(`ffmpeg process exited with code ${code}`);
+      // });
 
       // Start broadcast after 3s
       setTimeout(function() {
