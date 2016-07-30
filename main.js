@@ -26,7 +26,7 @@ function createWindow () {
   ipcMain.on("facebook-button-clicked",function (event, arg) {
     var options = {
       client_id: '1656785501307920',
-      scopes: "public_profile",
+      scopes: "public_profile,publish_actions",
       redirect_uri: "https://www.facebook.com/connect/login_success.html"
     };
     var authWindow = new BrowserWindow({ width: 450, height: 300, show: false, 'node-integration': false });
@@ -38,8 +38,10 @@ function createWindow () {
       var raw_code = /access_token=([^&]*)/.exec(newUrl) || null;
       access_token = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
       error = /\?error=(.+)$/.exec(newUrl);
+      console.log(access_token)
       if (access_token) {
         FB.setAccessToken(access_token);
+        global.access_token = access_token;
         mainWindow.loadURL(`file://${__dirname}/index.html`)
       }
     });
