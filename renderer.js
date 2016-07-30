@@ -136,13 +136,10 @@ $('#startQuestionBtn').click(function()
 	if(list_question.length > 1)
 		$('#nextQuestionBtn').prop('disabled', false);
 	$('#stopGameShowBtn').prop('disabled', false);
-<<<<<<< HEAD
 
 	$("#alert-found-righ-answer").fadeTo(2000, 500).slideUp(500, function(){
     	$("#alert-found-righ-answer").alert('close');
 	});	
-=======
->>>>>>> 4d4bd2ffb236901593385259ff9437a5a9e85f87
 
   $.ajax({
     url: 'https://graph.facebook.com/me/live_videos',
