@@ -43,6 +43,7 @@ function createWindow () {
         FB.setAccessToken(access_token);
         global.access_token = access_token;
         mainWindow.loadURL(`file://${__dirname}/index.html`)
+        authWindow.close();
       }
     });
   });

@@ -5,7 +5,34 @@ $('#sample-btn').click(function() {
   alert('test click');
 });
 
+// Import
+var http = require('http');
+var fs = require('fs');
+var toBuffer = require('blob-to-buffer');
+var spawn = require('child_process').spawn;
 
+// Init
+var gumVideo = document.getElementById('gum');
+
+// Shim
+navigator.getUserMedia = (navigator.getUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia ||
+                          navigator.webkitGetUserMedia);
+
+var httpRes;
+var mediaRecorder;
+
+// Start web server
+var server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'video/webm');
+  console.log('Hanging http result...');
+  httpRes = res;
+});
+
+console.log('Fake http server listen on port 5123');
+server.listen(5123);
 
 var list_question = [];
 var cur_question_idx = 0;
@@ -60,6 +87,22 @@ function initGameShowScreen()
 	$('#startQuestionBtn').prop('disabled', false);
 	$('#nextQuestionBtn').prop('disabled', true);
 	$('#stopGameShowBtn').prop('disabled', true);
+
+  // Start video
+  navigator
+    .getUserMedia({
+      audio: true,
+      video: true
+    }, function(stream) {
+      window.stream = stream;
+      if (window.URL) {
+        gumVideo.src = window.URL.createObjectURL(stream);
+      } else {
+        gumVideo.src = stream;
+      }
+    }, function(err) {
+      console.log(err);
+    });
 };
 
 
@@ -91,8 +134,88 @@ $('#startQuestionBtn').click(function()
 	if(list_question.length > 1)
 		$('#nextQuestionBtn').prop('disabled', false);
 	$('#stopGameShowBtn').prop('disabled', false);
-	
 
+  $.ajax({
+    url: 'https://graph.facebook.com/me/live_videos',
+    method: 'post',
+    data: {
+      access_token: token,
+      published: true,
+      privacy: { value: 'EVERYONE' }
+    },
+    success: function(result) {
+      window.streamObj = result;
+
+      console.log(result);
+
+      // Run ffmpeg
+      var ffmpegCli = spawn('ffmpeg', [ 
+        '-re', '-i', "http://localhost:5123/", 
+        '-c:v', 'libx264', '-preset', 'fast', 
+        '-c:a', 'libfdk_aac', '-ab', '128k', '-ar', '44100', 
+        '-f', 'flv', result.stream_url ]);
+
+      ffmpegCli.stdout.on('data', (data) => {
+        console.log(`ffmpeg stdout: ${data}`);
+      });
+
+      ffmpegCli.stderr.on('data', (data) => {
+        console.log(`ffmpeg stderr: ${data}`);
+      });
+
+      ffmpegCli.on('close', (code) => {
+        console.log(`ffmpeg process exited with code ${code}`);
+      });
+
+      // Start broadcast after 3s
+      setTimeout(function() {
+        var options = {mimeType: 'video/webm;codecs=vp9'};
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+          console.log(options.mimeType + ' is not Supported');
+          options = {mimeType: 'video/webm;codecs=vp8'};
+          if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            console.log(options.mimeType + ' is not Supported');
+            options = {mimeType: 'video/webm'};
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+              console.log(options.mimeType + ' is not Supported');
+              options = {mimeType: ''};
+            }
+          }
+        }
+        try {
+          mediaRecorder = new MediaRecorder(window.stream, options);
+        } catch (e) {
+          console.error('Exception while creating MediaRecorder: ' + e);
+          alert('Exception while creating MediaRecorder: '
+            + e + '. mimeType: ' + options.mimeType);
+          return;
+        }
+        console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+
+        mediaRecorder.onstop = function(e) {
+          if (httpRes) {
+            httpRes.end();
+            httpRes = null;
+          }
+        };
+        mediaRecorder.ondataavailable = function(e) {
+          if (e.data && e.data.size > 0) {
+            var buffer = toBuffer(e.data, function(err, buffer) {
+              if (!err) {
+                if (httpRes) {
+                  httpRes.write(buffer);
+                }
+              }
+            });
+          }
+        };
+        mediaRecorder.start(10); // collect 10ms of data
+        console.log('MediaRecorder started', mediaRecorder);
+      }, 3000);
+    }, error: function(err) {
+      console.log('Cannot create live stream object')
+    }
+  });
 });
 
 $('#nextQuestionBtn').click(function()
@@ -117,6 +240,10 @@ $('#stopGameShowBtn').click(function()
 {
 	$('#game-show-screen').hide();
 	$('#game-result-screen').show();
+
+  if (mediaRecorder) {
+    mediaRecorder.stop();
+  }
 });
 
 var _streaming = {};
