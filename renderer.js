@@ -85,13 +85,20 @@ function showLeaderboard() {
     var data = findAccordingQuestion(commenttedTime);
 
     if (data && data.question.answer.toLowerCase() === comment.message.trim().toLowerCase()) {
-      var numCorrect = result.numCorrect || 0;
-      result.numCorrect = numCorrect + 1;
-
       var delta = commenttedTime.diff(data.startTime, 'seconds');
       result.delta = (result.delta || 0) + delta;
-
       result.name = comment.from.name;
+
+      // if (!result.data.startQuestionTime
+      //     || result.data.startQuestionTime.isSame(data.startTime, 'seconds')) {
+      //   var numCorrect = result.numCorrect || 0;
+      //   result.numCorrect = numCorrect + 1;
+      // }
+      //
+      // result.data.startQuestionTime = data.startTime;
+
+      var numCorrect = result.numCorrect || 0;
+      result.numCorrect = numCorrect + 1;
 
       if (!result.commenttedTime || commenttedTime.isAfter(result.commenttedTime)) {
         result.commenttedTime = commenttedTime;
