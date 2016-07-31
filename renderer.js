@@ -1,33 +1,10 @@
 var _streaming = {};
 var _comments = {};
 var _reactions = {};
+
 var flag_showed_answer = false;
-var _comments = [
-  {
-    created_time: "2016-07-31T02:08:15+0000",
-    message: 'A',
-    from: {
-      id: "1120182838021212",
-      name: 'Hieu Pham'
-    }
-  },
-  {
-    created_time: "2016-07-31T02:08:27+0000",
-    message: 'B',
-    from: {
-      id: "1370825412947621",
-      name: 'Vo Hoai Len'
-    }
-  },
-  {
-    created_time: "2016-07-31T02:08:29+0000",
-    message: 'C',
-    from: {
-      id: "1370825412947621",
-      name: 'Vo Hoai Len'
-    }
-  }
-];
+var _comments = [];
+
 var token = require('electron').remote.getGlobal('access_token');
 var pageId = 'livegameshowapp';
 
@@ -79,7 +56,7 @@ function renderLeaderboardRow(count, fbId, name, numCorrect, submittedAt) {
              "<span>" + name + "</span>" +
            "</td>" +
            "<td>" + numCorrect + "</td>" +
-           "<td>" + moment(submittedAt).startOf('hour').fromNow() + "</td>" +
+           "<td>" + moment(submittedAt).startOf('minute').fromNow() + "</td>" +
           "</tr>";
 }
 
@@ -126,8 +103,8 @@ function showLeaderboard() {
 
   var sortedLeaderboard = $.map(leaderboard, function(value, _index) {return value;});
   sortedLeaderboard.sort(function(a, b) {
-    var aa = (a.numCorrect * 10000 + a.delta);
-    var bb = (b.numCorrect * 10000 + b.delta);
+    var aa = (a.numCorrect * 10000 - a.delta);
+    var bb = (b.numCorrect * 10000 - b.delta);
     return aa - bb;
   });
 
@@ -202,7 +179,7 @@ function getCorectAnswer()
 		if(time == 0 || date.getTime() < time)
 		{
 			time = date.getTime();
-			correct_comment = commentItem;			
+			correct_comment = commentItem;
 		}
 	}
 	return correct_comment;
