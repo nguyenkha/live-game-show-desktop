@@ -161,7 +161,7 @@ function showCorrectComment(){
 	var correct_comment = getCorectAnswer();
 	if(!flag_showed_answer && correct_comment != undefined)
 	{
-		toastr.success("@"correct_comment.from.name + " answered correctly!", null, _optsToast);
+		toastr.success("@" + correct_comment.from.name + " answered correctly!", null, _optsToast);
 		flag_showed_answer = true;
 	}
 }
