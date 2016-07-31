@@ -77,3 +77,16 @@
 #accordion-list-question {
   margin-top: 20px;
 }
+
+
+.leaderboard-table {
+  width: 100%;
+}
+
+.leaderboard-table tr td:first-child {
+  padding-left: 10px;
+}
+
+.leaderboard-table .profile-view {
+  padding: 10px;
+}
