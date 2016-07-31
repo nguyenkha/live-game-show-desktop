@@ -184,7 +184,7 @@ function showCorrectComment(){
 	var correct_comment = getCorectAnswer();
 	if(!flag_showed_answer && correct_comment != undefined)
 	{
-		toastr.success(correct_comment.from.name + " just answered: " + correct_comment.message, null, _optsToast);
+		toastr.success("@"correct_comment.from.name + " answered correctly!", null, _optsToast);
 		flag_showed_answer = true;
 	}
 }
@@ -249,7 +249,48 @@ createjs.Sound.registerSound("./beep-09.mp3", "beep2");
 var list_question = [];
 var cur_question_idx = 0;
 
-$('#startGameShowBtn').prop('disabled', true);
+// $('#startGameShowBtn').prop('disabled', true);
+initSampleData();
+//Init Sample Data
+function initSampleData()
+{
+	var question01 = {
+		'title': "Question " + (list_question.length + 1) + ": Who is the current president of the USA?",
+		'answerA': "A: Bill Clinton",
+		'answerB': "B: Donald Trump",
+		'answerC': "C: Kanye West",
+		'answerD': "D: Barack Obama",
+		'answer' : "D",
+		'id' : list_question.length + 1
+	};
+  	addQuestionToList(question01);
+  	list_question.push(question01);
+
+  	var question02 = {
+		'title': "Question " + (list_question.length + 1) + ": Where is Vietnam in the world map?",
+		'answerA': "A: South Asia",
+		'answerB': "B: East Asia",
+		'answerC': "C: South East Asia",
+		'answerD': "D: Central Asia",
+		'answer' : "C",
+		'id' : list_question.length + 1
+	};
+  	addQuestionToList(question02);
+  	list_question.push(question02);
+
+	var question03 = {
+		'title': "Question " + (list_question.length + 1) + ": Who is Mark Zuckerberg? ",
+		'answerA': "A: CEO of Google",
+		'answerB': "B: CEO of Facebook",
+		'answerC': "C: CEO of Amazon",
+		'answerD': "D: CEO of Microsoft",
+		'answer' : "B",
+		'id' : list_question.length + 1
+	};
+  	addQuestionToList(question03);
+  	list_question.push(question03);
+}
+
 
 function addQuestionToList(data) {
   $("#accordion-list-question").append('<div class="panel panel-default" id="accordion-item-' +data.id  + '">' +
