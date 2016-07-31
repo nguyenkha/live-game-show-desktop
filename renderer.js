@@ -94,6 +94,7 @@ function initGameShowScreen()
 	$('#stopGameShowBtn').prop('disabled', true);
 
   $('#video-overlay').show();
+  $('#live-bagde').hide();
 
   // Start video
   navigator
@@ -152,6 +153,7 @@ $('#startQuestionBtn').click(function()
       createjs.Sound.play("beep"); 
       setTimeout(function() {
         $('#countdown-to-live').text('Go!');
+        $('#live-bagde').show();
         createjs.Sound.play("beep2"); 
         $('#video-overlay').fadeOut();
         setTimeout(function() {

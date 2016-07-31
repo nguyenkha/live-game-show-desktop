@@ -57,3 +57,18 @@
   text-align: center;
   font-weight: bold;
 }
+
+#live-bagde {
+  position: absolute;
+  font-weight: bold;
+  top: 10px;
+  left: 10px;
+}
+
+#live-bagde span {
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+  opacity: 0.9;
+  background-color: red;
+}
