@@ -1,14 +1,85 @@
 var _streaming = {};
 var _comments = {};
 var _reactions = {};
+var _lastestComment = undefined;
+var _lastestCommentTime = 0;
+
+var _comments = [
+  {
+    created_time: "2016-07-31T02:08:15+0000",
+    message: 'A',
+    from: {
+      id: "1120182838021212",
+      name: 'Hieu Pham'
+    }
+  },
+  {
+    created_time: "2016-07-31T02:08:27+0000",
+    message: 'B',
+    from: {
+      id: "1370825412947621",
+      name: 'Vo Hoai Len'
+    }
+  },
+  {
+    created_time: "2016-07-31T02:08:29+0000",
+    message: 'C',
+    from: {
+      id: "1370825412947621",
+      name: 'Vo Hoai Len'
+    }
+  }
+];
 var token = require('electron').remote.getGlobal('access_token');
 
 var fetchCommentTimer = null;
-var _questionStartTimes = [];
+var _questionStartTimes = ['Sun Jul 31 2016 09:07:57 GMT+0700 (ICT)]'];
+
+var _optsToast = {
+"closeButton": true,
+"debug": false,
+"positionClass": "toast-bottom-left",
+"onclick": null,
+"showDuration": "300",
+"hideDuration": "1000",
+"timeOut": "5000",
+"extendedTimeOut": "1000",
+"showEasing": "swing",
+"hideEasing": "linear",
+"showMethod": "fadeIn",
+"hideMethod": "fadeOut"
+};
 
 function clearFetchCommentTimer() {
   if (fetchCommentTimer) { clearInterval(fetchCommentTimer); }
 }
+
+function fbProfileFrom(fbId) {
+  return "http://graph.facebook.com/" + fbId + "/picture?type=square";
+}
+
+function renderLeaderboardRow(count, fbId, name, numCorrect, submittedAt) {
+  return "<tr>" +
+           "<td>" + count + "</td>" +
+           "<td>" +
+             "<img class='profile-view img-rounded' src='" + fbProfileFrom(fbId) + "'></img>" +
+             "<span>" + name + "</span>" +
+           "</td>" +
+           "<td>" + numCorrect + "</td>" +
+           "<td>" + moment(submittedAt).startOf('hour').fromNow() + "</td>" +
+          "</tr>";
+}
+
+function showLeaderboard() {
+  var numComments = _comments.length;
+  $('.num-comments').text(numComments + ' comment(s) in total');
+  var $body = $('.leaderboard-table tbody');
+  var tr1 = renderLeaderboardRow(1, "1370825412947621", "Hieu", 1, new Date());
+  var tr2 = renderLeaderboardRow(1, "1370825412947621", "Len", 2, new Date());
+  $body.html(tr1 + tr2);
+}
+
+showLeaderboard();
 
 function _requestComments() {
   if (window.fbStreamObj) {
@@ -20,7 +91,7 @@ function _requestComments() {
       },
       success: function(result) {
         _comments = result.data;
-        console.log(result);
+        console.log(_comments);
       }
     });
 
@@ -45,6 +116,16 @@ function _requestComments() {
       }
     });
   }
+}
+function showLastComment(){
+	if(_comments.length == 0)
+		return;
+	if(_lastestComment == undefined)
+	{
+		_lastestComment = _comments[0];
+		// _lastestCommentTime =
+	}
+	toastr.warning(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
 }
 
 $('#sample-btn').click(function() {
@@ -87,8 +168,7 @@ createjs.Sound.registerSound("./beep-09.mp3", "beep2");
 
 var list_question = [];
 var cur_question_idx = 0;
-$('#game-show-screen').hide();
-$('#game-result-screen').hide();
+
 $('#startGameShowBtn').prop('disabled', true);
 
 function addQuestionToList(data) {
@@ -165,6 +245,8 @@ function initGameShowScreen() {
 
 function loadQuestion(data) {
   _questionStartTimes.push(new Date());
+  console.log(_questionStartTimes);
+
   $("#question-content").html('<div class="panel panel-default" id="answer-item-' +data.id  + '">' +
                       '<div class="panel-heading">' +
                         '<h4 class="panel-title">' +

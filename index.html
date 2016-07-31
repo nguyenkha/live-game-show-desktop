@@ -10,8 +10,7 @@
     <script src="./jquery.min.js"></script>
     <script src="./bootstrap.min.js"></script>
     <script src="./toastr.min.js"></script>
-    <script src="./material.min.js"></script>
-    <script src="./ripples.min.js"></script>
+    <script src="./moment.min.js"></script>
     <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>
     <script>if (window.module) module = window.module;</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
@@ -48,7 +47,7 @@
     </section>
 
     <!-- Begin Session Game Show Page-->
-    <section class="success" id="game-show-screen" >
+    <section class="success" id="game-show-screen" style="display:none;" >
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 ">
@@ -94,35 +93,31 @@
     </section>
     <!-- End Session Game Show Page-->
 
-
-
     <!-- Begin Session Result Page-->
-    <section class="success" id="game-result-screen" >
+    <section class="success" id="game-result-screen">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 ">
                     <h2 class="text-center">Game Result </h2>
                     <hr class="star-light">
-
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
 
-                  <div class="panel-group">
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h4 class="panel-title" style="text-align: center;">
-                          <img class="img-circle text-center" src="img/profile-temp.jpg" style="width: 150px; height:150px" >
-                        </h4>
-                        <ul data-role="listview">
-                            <li>Facebook User Id:  <a href="facebook-user-id">vohoailen</a></li>
-                            <li>Facebook Name:  <span id="facebook-name">Vo Hoai Len</span></li>
-                            <li>Total Score:  <span id="facebook-total-score">100</span></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  <p class='num-comments'></p>
+                  <table class="table-striped leaderboard-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Correctness</th>
+                        <th>Submitted at</th>
+                      <tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
 
 
                 </div>
