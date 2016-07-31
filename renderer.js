@@ -170,12 +170,16 @@ function showCorrectComment(){
 	{
 		toastr.success("@" + correct_comment.from.name + " answered correctly!", null, _optsToast);
 		var msg = "@" + correct_comment.from.name + " answered correctly!";
-		postCommentCorrectAnswer(msg);
+    setTimeout(function() {
+      postCommentCorrectAnswer(msg);
+    }, 500);
+		
 		flag_showed_answer = true;
 	}
 }
 function postCommentCorrectAnswer(msg)
 {
+  console.log('123', msg, 'https://graph.facebook.com/' + pageId + "_" + window.fbStreamObj.id + '/comments')
 $.ajax({
     url: 'https://graph.facebook.com/' + pageId + "_" + window.fbStreamObj.id + '/comments',
     method: 'post',
@@ -184,10 +188,12 @@ $.ajax({
       message: msg
     },
     success: function(result) {
+      console.log(result, msg);
         console.log("Comment Success");
       }
     });
 }
+
 function getCorrectAnswer()
 {
 	var time = 0;
@@ -434,8 +440,9 @@ $('#startQuestionBtn').click(function() {
       // Run ffmpeg
       var ffmpegCli = spawn('ffmpeg', [
         '-re', '-i', "http://localhost:5123/",
+        '-filter:v', 'scale=720:-1',
         '-c:v', 'libx264', '-preset', 'fast',
-        '-c:a', 'libfdk_aac', '-ab', '128k', '-ar', '44100',
+        '-c:a', 'libfdk_aac', '-ab', '64k', '-ar', '44100',
         '-f', 'flv', result.stream_url ]);
 
       // ffmpegCli.stdout.on('data', (data) => {
