@@ -94,10 +94,6 @@
   color: #e85858;
 };
 
-.leaderboard-table {
-  width: 100%;
-}
-
 .leaderboard-table tr td:first-child {
   padding-left: 10px;
 }
