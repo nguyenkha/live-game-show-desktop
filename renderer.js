@@ -1,9 +1,26 @@
 var _streaming = {};
-var _comments = {};
+var _comments = [];
+var _lastestComment = undefined;
+var _lastestCommentTime = 0;
 var token = require('electron').remote.getGlobal('access_token');
 
 var fetchCommentTimer = null;
 var _questionStartTimes = [];
+var _optsToast = {
+"closeButton": true,
+"debug": false,
+"positionClass": "toast-bottom-left",
+"onclick": null,
+"showDuration": "300",
+"hideDuration": "1000",
+"timeOut": "5000",
+"extendedTimeOut": "1000",
+"showEasing": "swing",
+"hideEasing": "linear",
+"showMethod": "fadeIn",
+"hideMethod": "fadeOut"
+};
+
 
 function clearFetchCommentTimer() {
   if (fetchCommentTimer) { clearInterval(fetchCommentTimer); }
@@ -23,6 +40,16 @@ function _requestComments() {
       }
     });
   }
+}
+function showLastComment(){
+	if(_comments.length == 0)
+		return;
+	if(_lastestComment == undefined)
+	{
+		_lastestComment = _comments[0];
+		// _lastestCommentTime = 
+	}
+	toastr.warning(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
 }
 
 $('#sample-btn').click(function() {
