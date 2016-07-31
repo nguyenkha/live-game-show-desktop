@@ -135,6 +135,22 @@ $('#startQuestionBtn').click(function()
 		$('#nextQuestionBtn').prop('disabled', false);
 	$('#stopGameShowBtn').prop('disabled', false);
 
+  $('#video-overlay').show();
+  $('#countdown-to-live').text('3');
+  setTimeout(function() {
+    $('#countdown-to-live').text('2');
+    setTimeout(function() {
+      $('#countdown-to-live').text('1');
+      setTimeout(function() {
+        $('#countdown-to-live').text('Go!');
+        $('#video-overlay').fadeOut();
+        setTimeout(function() {
+          $('#countdown-to-live').text();
+        }, 1000);
+      }, 1000);
+    }, 1000);
+  }, 1000);
+
   $.ajax({
     url: 'https://graph.facebook.com/me/live_videos',
     method: 'post',
