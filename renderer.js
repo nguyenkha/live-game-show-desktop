@@ -1,9 +1,7 @@
 var _streaming = {};
 var _comments = {};
 var _reactions = {};
-var _lastestComment = undefined;
-var _lastestCommentTime = 0;
-
+var flag_showed_answer = false;
 var _comments = [
   {
     created_time: "2016-07-31T02:08:15+0000",
@@ -56,7 +54,7 @@ var _optsToast = {
 "positionClass": "toast-top-right",
 "onclick": null,
 "showDuration": "300",
-"hideDuration": "1000",
+"hideDuration": "2000",
 "timeOut": "5000",
 "extendedTimeOut": "1000",
 "showEasing": "swing",
@@ -154,7 +152,7 @@ function _requestComments() {
       success: function(result) {
         _comments = result.data;
         console.log(_comments);
-        showLastComment();
+        showCorrectComment();
       }
     });
 
@@ -180,23 +178,34 @@ function _requestComments() {
     });
   }
 }
-function showLastComment(){
+function showCorrectComment(){
 	if(_comments.length == 0)
 		return;
-	var flag_changed = false;
-	if(_lastestComment == undefined)
-		flag_changed = true;
+	var correct_comment = getCorectAnswer();
+	if(!flag_showed_answer && correct_comment != undefined)
+	{
+		toastr.success(correct_comment.from.name + " just answered: " + correct_comment.message, null, _optsToast);
+		flag_showed_answer = true;
+	}
+}
+function getCorectAnswer()
+{
+	var time = 0;
+	var correct_comment = undefined;
 	for(var i = 0; i < _comments.length; i++){
 		var date = new Date(_comments[i].created_time);
-		if(date.getTime() > _lastestCommentTime)
+		var commentItem = _comments[i];
+		if(commentItem.message.toLowerCase() != list_question[cur_question_idx].answer.toLowerCase())
+			continue;
+		if(date.getTime() <= _questionStartTimes[cur_question_idx].getTime())
+			continue;
+		if(time == 0 || date.getTime() < time)
 		{
-			flag_changed = true;
-			_lastestComment = _comments[i];
-			_lastestCommentTime = date.getTime();
+			time = date.getTime();
+			correct_comment = commentItem;			
 		}
 	}
-	if(flag_changed)
-		toastr.success(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
+	return correct_comment;
 }
 
 $('#sample-btn').click(function() {
@@ -315,6 +324,7 @@ function initGameShowScreen() {
 };
 
 function loadQuestion(data) {
+  flag_showed_answer = false;
   _questionStartTimes.push(moment());
   console.log(_questionStartTimes);
 
