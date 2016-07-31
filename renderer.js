@@ -197,7 +197,7 @@ function getCorectAnswer()
 		var commentItem = _comments[i];
 		if(commentItem.message.toLowerCase() != list_question[cur_question_idx].answer.toLowerCase())
 			continue;
-		if(date.getTime() <= _questionStartTimes[cur_question_idx].getTime())
+		if(date.getTime() <= _questionStartTimes[cur_question_idx].valueOf())
 			continue;
 		if(time == 0 || date.getTime() < time)
 		{
