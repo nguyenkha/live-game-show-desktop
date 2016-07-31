@@ -6,7 +6,7 @@ var flag_showed_answer = false;
 var _comments = [];
 
 var token = require('electron').remote.getGlobal('access_token');
-var pageId = 'livegameshowapp';
+var pageId = '1117411598325188';
 
 $.ajax({
   url: 'https://graph.facebook.com/' + pageId + '',
@@ -158,14 +158,30 @@ function _requestComments() {
 function showCorrectComment(){
 	if(_comments.length == 0)
 		return;
-	var correct_comment = getCorectAnswer();
+	var correct_comment = getCorrectAnswer();
 	if(!flag_showed_answer && correct_comment != undefined)
 	{
 		toastr.success("@" + correct_comment.from.name + " answered correctly!", null, _optsToast);
+		var msg = "@" + correct_comment.from.name + " answered correctly!";
+		postCommentCorrectAnswer(msg);
 		flag_showed_answer = true;
 	}
 }
-function getCorectAnswer()
+function postCommentCorrectAnswer(msg)
+{
+$.ajax({
+    url: 'https://graph.facebook.com/' + pageId + "_" + window.fbStreamObj.id + '/comments',
+    method: 'post',
+    data: {
+      access_token: token,
+      message: msg
+    },
+    success: function(result) {
+        console.log("Comment Success");
+      }
+    });
+}
+function getCorrectAnswer()
 {
 	var time = 0;
 	var correct_comment = undefined;
