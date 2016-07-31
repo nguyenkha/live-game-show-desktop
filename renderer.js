@@ -35,6 +35,11 @@ var server = http.createServer((req, res) => {
 console.log('Fake http server listen on port 5123');
 server.listen(5123);
 
+// Register sound
+createjs.Sound.alternateExtensions = ["mp3"];
+createjs.Sound.registerSound("./beep-07.mp3", "beep");
+createjs.Sound.registerSound("./beep-09.mp3", "beep2");
+
 var list_question = [];
 var cur_question_idx = 0;
 $('#game-show-screen').hide();
@@ -89,6 +94,9 @@ function initGameShowScreen() {
   $('#nextQuestionBtn').prop('disabled', true);
   $('#stopGameShowBtn').prop('disabled', true);
 
+  $('#video-overlay').show();
+  $('#live-bagde').hide();
+
   // Start video
   navigator
     .getUserMedia({
@@ -134,9 +142,28 @@ $('#startQuestionBtn').click(function() {
     $('#nextQuestionBtn').prop('disabled', false);
   $('#stopGameShowBtn').prop('disabled', false);
 
-  $("#alert-found-righ-answer").fadeTo(2000, 500).slideUp(500, function(){
-      $("#alert-found-righ-answer").alert('close');
-  });
+  $('#countdown-to-live').text('3');
+  createjs.Sound.play("beep"); 
+  setTimeout(function() {
+    $('#countdown-to-live').text('2');
+    createjs.Sound.play("beep"); 
+    setTimeout(function() {
+      $('#countdown-to-live').text('1');
+      createjs.Sound.play("beep"); 
+      setTimeout(function() {
+        $('#countdown-to-live').text('Go!');
+        $('#live-bagde').show();
+        createjs.Sound.play("beep2"); 
+        $('#video-overlay').fadeOut();
+        setTimeout(function() {
+          $('#countdown-to-live').text();
+        }, 1000);
+      }, 1000);
+    }, 1000);
+  }, 1000);
+	$("#alert-found-righ-answer").fadeTo(2000, 500).slideUp(500, function(){
+    	$("#alert-found-righ-answer").alert('close');
+	});	
 
   $.ajax({
     url: 'https://graph.facebook.com/me/live_videos',
