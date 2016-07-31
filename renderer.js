@@ -44,6 +44,8 @@ var cur_question_idx = 0;
 $('#game-show-screen').hide();
 $('#game-result-screen').hide();
 $('#startGameShowBtn').prop('disabled', true);
+$("#alert-found-righ-answer").hide();
+
 function addQuestionToList(data)
 {
 	$("#accordion-list-question").append('<div class="panel panel-default" id="accordion-item-' +data.id  + '">' + 
@@ -60,6 +62,7 @@ function addQuestionToList(data)
                             '<li><a href="#"> ' + data.answerC + '</a></li>'+
                             '<li><a href="#"> ' + data.answerD + '</a></li>'+
                           '</ul>'+
+                          'Answer: ' + data.answer +
                         '</div>'+
                       '</div>'+
                     '</div>');
@@ -130,6 +133,7 @@ function loadQuestion(data)
                             '<li><a href="#"> ' + data.answerC + '</a></li>'+
                             '<li><a href="#"> ' + data.answerD + '</a></li>'+
                           '</ul>'+
+                          'Answer: ' + data.answer +
                         '</div>'+
                       '</div>'+
                     '</div>');
@@ -162,6 +166,9 @@ $('#startQuestionBtn').click(function()
       }, 1000);
     }, 1000);
   }, 1000);
+	$("#alert-found-righ-answer").fadeTo(2000, 500).slideUp(500, function(){
+    	$("#alert-found-righ-answer").alert('close');
+	});	
 
   $.ajax({
     url: 'https://graph.facebook.com/me/live_videos',
@@ -267,12 +274,12 @@ $('#nextQuestionBtn').click(function()
 	}
 	else
 	{
-		cur_question_idx++;
-		loadQuestion(list_question[cur_question_idx]);
 		$('#startQuestionBtn').prop('disabled', true);
 		$('#nextQuestionBtn').prop('disabled', false);
 		$('#stopGameShowBtn').prop('disabled', false);
 	}
+	cur_question_idx++;
+	loadQuestion(list_question[cur_question_idx]);
 });
 
 $('#stopGameShowBtn').click(function()

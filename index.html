@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./bootstrap.min.css">
-    <link rel="stylesheet" href="./bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="./ripples.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="./bootstrap-material-design.min.css"> -->
+    <!-- <link rel="stylesheet" href="./ripples.min.css"> -->
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="./jquery.min.js"></script>
     <script src="./bootstrap.min.js"></script>
@@ -17,21 +18,31 @@
     <title>Live Game Show</title>
   </head>
   <body>
+<!---->
+<div class="alert alert-success" id="alert-found-righ-answer">
+    <strong>Success!</strong> We found a righ answer for this question.! Go to next question now.
+</div>
+
+
 <!--     <button id='sample-btn' class='btn btn-default'>Sample</button> -->
 
     <section class="success" id="list-questions-screen" >
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 ">
-                    <h2 class="text-center">List Your Questions </h2>
-                    <button class='btn btn-default pull-right' data-toggle="modal" data-target="#questionModal">Add Question</button>
+                    <h2 class="text-center">Question List</h2>
                     <hr class="star-light">
-
                 </div>
+            </div>
+            <div class='col-md-12 row'>
+              <button class='btn btn-info pull-right' data-toggle="modal" data-target="#questionModal">
+                <i class="fa fa-plus"></i>
+                <span>Add Question</span>
+              </button>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
-                    
+
                   <div class="panel-group" id="accordion-list-question">
                     <!-- <div class="panel panel-default">
                       <div class="panel-heading">
@@ -55,8 +66,9 @@
 
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <button href="#" class="btn btn-lg btn-success" id="startGameShowBtn">
-                        <i class="fa fa-download"></i> Start Game Show 
+                    <button class="btn btn-lg btn-success" id="startGameShowBtn">
+                        <i class="fa fa-sign-in"></i>
+                        <span>Start Game Show</span>
                     </button>
                 </div>
             </div>
@@ -76,7 +88,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
-                    
+
                   <div class="panel-group">
                     <div class="panel panel-default">
                       <div id="video-container">
@@ -91,10 +103,10 @@
                     </div>
                   </div>
 
-                    
+
                 </div>
                 <div class="col-lg-4">
-                    
+
                     <div class="panel-group" id="question-content">
                     <!-- <div class="panel panel-default">
                       <div class="panel-heading">
@@ -148,7 +160,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
-                    
+
                   <div class="panel-group">
                     <div class="panel panel-default">
                       <div class="panel-heading">
@@ -162,15 +174,15 @@
                             <li>Total Score:  <span id="facebook-total-score">100</span></li>
                         </ul>
 
-                        
+
                       </div>
                     </div>
                   </div>
 
-                    
+
                 </div>
                 <div class="col-lg-4">
-                    
+
                     <div class="panel-group" id="question-content">
                     <!-- <div class="panel panel-default">
                       <div class="panel-heading">
@@ -216,22 +228,22 @@
             <textarea class="form-control" rows="5" id="question-description"></textarea>
 
             <div class="radio">
-              <label><input type="radio" name="optradio" value="1">Answer A:</label>
+              <label><input type="radio" name="optradio" value="A">Answer A:</label>
               <input type="text" class="form-control" id="answerA">
             </div>
             <div class="radio">
-              <label><input type="radio" name="optradio" value="2">Answer B:</label>
+              <label><input type="radio" name="optradio" value="B">Answer B:</label>
               <input type="text" class="form-control" id="answerB">
             </div>
             <div class="radio">
-              <label><input type="radio" name="optradio" value="3">Answer C:</label>
+              <label><input type="radio" name="optradio" value="C">Answer C:</label>
               <input type="text" class="form-control" id="answerC">
             </div>
             <div class="radio">
-              <label><input type="radio" name="optradio" value="4">Answer D:</label>
+              <label><input type="radio" name="optradio" value="D">Answer D:</label>
               <input type="text" class="form-control" id="answerD">
             </div>
-            
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -245,6 +257,12 @@
     <!-- <button id='create-live-stream' class='btn btn-info'>Create live stream</button>
     <button id='start-streaming' class='btn btn-info'>Start streaming</button>
     <button id='get-comments' class='btn btn-info'>Get comments</button> -->
+
+
+
+
+
+
   </body>
 
   <script>
