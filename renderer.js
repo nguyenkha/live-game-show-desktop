@@ -48,12 +48,12 @@ $.ajax({
 });
 
 var fetchCommentTimer = null;
-var _questionStartTimes = ['Sun Jul 31 2016 09:07:57 GMT+0700 (ICT)]'];
+var _questionStartTimes = [moment('Sun Jul 31 2016 09:07:57 GMT+0700 (ICT)]')];
 
 var _optsToast = {
 "closeButton": true,
 "debug": false,
-"positionClass": "toast-bottom-left",
+"positionClass": "toast-top-right",
 "onclick": null,
 "showDuration": "300",
 "hideDuration": "1000",
@@ -85,6 +85,18 @@ function renderLeaderboardRow(count, fbId, name, numCorrect, submittedAt) {
           "</tr>";
 }
 
+function findAccordingQuestion(commenttedTime) {
+  for (var i = 0; i < _questionStartTimes.length; i++) {
+    var startTime = _questionStartTimes[i];
+    if (if commenttedTime.isAfter(startTime)) {
+      return {
+        startTime: startTime,
+        question: list_question[i],
+      }
+    }
+  }
+}
+
 function showLeaderboard() {
   var numComments = _comments.length;
   $('.num-comments').text(numComments + ' comment(s) in total');
@@ -92,6 +104,30 @@ function showLeaderboard() {
   var tr1 = renderLeaderboardRow(1, "1370825412947621", "Hieu", 1, new Date());
   var tr2 = renderLeaderboardRow(1, "1370825412947621", "Len", 2, new Date());
   $body.html(tr1 + tr2);
+
+  // var leaderboard = {};
+  //
+  // for (var i = 0; i < _comments; i++) {
+  //   var comment = _comments[i];
+  //   var result = leaderboard[comment.from.id] || {id: comment.from.id};
+  //   var commenttedTime = moment(comment.created_time);
+  //   var data = findAccordingQuestion(commenttedTime);
+  //
+  //   if (data && data.question.answer.toLowerCase() === comment.message.trim().toLowerCase()) {
+  //     var numCorrect = result.numCorrect || 0;
+  //     result.numCorrect = numCorrect + 1;
+  //
+  //     var delta = commenttedTime.diff(data.startTime, 'senconds');
+  //     result.delta = (result.delta || 0) + delta;
+  //
+  //     result.name = comment.from.name;
+  //     leaderboard[comment.from.id] = result
+  //   }
+  // }
+  //
+  // var sortedLeaderboard = $.map(leaderboard, function(value, _index) {return value;});
+  // sortedLeaderboard.sort(function(a, b) { return a.delta - b.delta;});
+  // }
 }
 
 showLeaderboard();
@@ -107,6 +143,7 @@ function _requestComments() {
       success: function(result) {
         _comments = result.data;
         console.log(_comments);
+        showLastComment();
       }
     });
 
@@ -135,12 +172,20 @@ function _requestComments() {
 function showLastComment(){
 	if(_comments.length == 0)
 		return;
+	var flag_changed = false;
 	if(_lastestComment == undefined)
-	{
-		_lastestComment = _comments[0];
-		// _lastestCommentTime =
+		flag_changed = true;
+	for(var i = 0; i < _comments.length; i++){
+		var date = new Date(_comments[i].created_time);
+		if(date.getTime() > _lastestCommentTime)
+		{
+			flag_changed = true;
+			_lastestComment = _comments[i];
+			_lastestCommentTime = date.getTime();
+		}
 	}
-	toastr.warning(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
+	if(flag_changed)
+		toastr.success(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
 }
 
 $('#sample-btn').click(function() {
@@ -259,7 +304,7 @@ function initGameShowScreen() {
 };
 
 function loadQuestion(data) {
-  _questionStartTimes.push(new Date());
+  _questionStartTimes.push(moment());
   console.log(_questionStartTimes);
 
   $("#question-content").html('<div class="panel panel-default" id="answer-item-' +data.id  + '">' +
