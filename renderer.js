@@ -57,6 +57,7 @@ function addQuestionToList(data)
                             '<li><a href="#"> ' + data.answerC + '</a></li>'+
                             '<li><a href="#"> ' + data.answerD + '</a></li>'+
                           '</ul>'+
+                          'Answer: ' + data.answer +
                         '</div>'+
                       '</div>'+
                     '</div>');
@@ -124,6 +125,7 @@ function loadQuestion(data)
                             '<li><a href="#"> ' + data.answerC + '</a></li>'+
                             '<li><a href="#"> ' + data.answerD + '</a></li>'+
                           '</ul>'+
+                          'Answer: ' + data.answer +
                         '</div>'+
                       '</div>'+
                     '</div>');
@@ -245,12 +247,12 @@ $('#nextQuestionBtn').click(function()
 	}
 	else
 	{
-		cur_question_idx++;
-		loadQuestion(list_question[cur_question_idx]);
 		$('#startQuestionBtn').prop('disabled', true);
 		$('#nextQuestionBtn').prop('disabled', false);
 		$('#stopGameShowBtn').prop('disabled', false);
 	}
+	cur_question_idx++;
+	loadQuestion(list_question[cur_question_idx]);
 });
 
 $('#stopGameShowBtn').click(function()
