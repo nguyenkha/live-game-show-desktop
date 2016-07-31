@@ -78,6 +78,21 @@
   margin-top: 20px;
 }
 
+#reactions {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
+#reactions img {
+  width: 32px;
+  height: 32px;
+}
+
+#reactions-total {
+  font-weight: bold;
+  color: #e85858;
+};
 
 .leaderboard-table {
   width: 100%;

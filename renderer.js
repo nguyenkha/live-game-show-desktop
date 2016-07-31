@@ -1,5 +1,6 @@
 var _streaming = {};
-var _comments = [];
+var _comments = {};
+var _reactions = {};
 var _lastestComment = undefined;
 var _lastestCommentTime = 0;
 
@@ -92,6 +93,27 @@ function _requestComments() {
         _comments = result.data;
         console.log(_comments);
         showLastComment();
+      }
+    });
+
+    $.ajax({
+      url: 'https://graph.facebook.com/' + window.fbStreamObj.id + '/reactions',
+      data: {
+        access_token: token,
+        limit: 2000
+      },
+      success: function(result) {
+        _reactions = result.data;
+        console.log(_reactions);
+        if (_reactions && _reactions.length > 0) {
+          if ($('#reactions-total').text() != _reactions.length) {
+            $('#reactions').addClass('animated tada infinite');
+            setTimeout(function() {
+              $('#reactions').removeClass('animated tada infinite');
+            }, 3000);
+            $('#reactions-total').text(_reactions.length);
+          }
+        }
       }
     });
   }
@@ -210,6 +232,8 @@ function initGameShowScreen() {
 
   $('#video-overlay').show();
   $('#live-bagde').hide();
+  $('#reactions').hide();
+  $('#reactions-total').text('');
 
   // Start video
   navigator
@@ -270,6 +294,7 @@ $('#startQuestionBtn').click(function() {
       createjs.Sound.play("beep");
       setTimeout(function() {
         $('#countdown-to-live').text('Go!');
+        $('#reactions').show();
         $('#live-bagde').show();
         createjs.Sound.play("beep2");
         $('#video-overlay').fadeOut();
