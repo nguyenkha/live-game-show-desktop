@@ -31,6 +31,21 @@ var _comments = [
   }
 ];
 var token = require('electron').remote.getGlobal('access_token');
+var pageId = 'livegameshowapp';
+
+$.ajax({
+  url: 'https://graph.facebook.com/' + pageId + '',
+  data: {
+    access_token: token,
+    fields: 'access_token'
+  },
+  success: function(result) {
+    if (result.access_token) {
+      token = result.access_token;
+      console.log('Load page token', token, result);
+    }
+  }
+});
 
 var fetchCommentTimer = null;
 var _questionStartTimes = ['Sun Jul 31 2016 09:07:57 GMT+0700 (ICT)]'];
