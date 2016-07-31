@@ -1,6 +1,7 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+var _streaming = {};
+var _comments = {};
+var token = require('electron').remote.getGlobal('access_token');
+
 $('#sample-btn').click(function() {
   alert('test click');
 });
@@ -46,9 +47,8 @@ $('#game-result-screen').hide();
 $('#startGameShowBtn').prop('disabled', true);
 $("#alert-found-righ-answer").hide();
 
-function addQuestionToList(data)
-{
-	$("#accordion-list-question").append('<div class="panel panel-default" id="accordion-item-' +data.id  + '">' + 
+function addQuestionToList(data) {
+  $("#accordion-list-question").append('<div class="panel panel-default" id="accordion-item-' +data.id  + '">' +
                       '<div class="panel-heading">' +
                         '<h4 class="panel-title">' +
                           '<a data-toggle="collapse" data-parent="#accordion" href="#collapse' + data.id + '">' + data.title + '</a>'+
@@ -67,34 +67,32 @@ function addQuestionToList(data)
                       '</div>'+
                     '</div>');
 };
-$('#saveQuestionBtn').click(function()
-{
-	var questionItem = {};
-	questionItem.title = "Question " + (list_question.length + 1) + ": " +  $("#question-description").val();
-	questionItem.answerA = "A: " + $("#answerA").val();
-	questionItem.answerB = "B: " + $("#answerB").val();
-	questionItem.answerC = "C: " + $("#answerC").val();
-	questionItem.answerD = "D: " + $("#answerD").val();
-	questionItem.answer  = $('#questionModal input:radio:checked').val();
-	questionItem.id = list_question.length + 1;
-	addQuestionToList(questionItem);
-	list_question.push(questionItem);
-	$('#questionModal').modal('toggle');
-	$('#startGameShowBtn').prop('disabled', false);
+
+$('#saveQuestionBtn').click(function() {
+  var questionItem = {};
+  questionItem.title = "Question " + (list_question.length + 1) + ": " +  $("#question-description").val();
+  questionItem.answerA = "A: " + $("#answerA").val();
+  questionItem.answerB = "B: " + $("#answerB").val();
+  questionItem.answerC = "C: " + $("#answerC").val();
+  questionItem.answerD = "D: " + $("#answerD").val();
+  questionItem.answer  = $('#questionModal input:radio:checked').val();
+  questionItem.id = list_question.length + 1;
+  addQuestionToList(questionItem);
+  list_question.push(questionItem);
+  $('#questionModal').modal('toggle');
+  $('#startGameShowBtn').prop('disabled', false);
 });
 
-$('#startGameShowBtn').click(function()
-{
-	$('#list-questions-screen').hide();
-	$('#game-show-screen').show();
-	initGameShowScreen();
+$('#startGameShowBtn').click(function() {
+  $('#list-questions-screen').hide();
+  $('#game-show-screen').show();
+  initGameShowScreen();
 });
 
-function initGameShowScreen()
-{
-	$('#startQuestionBtn').prop('disabled', false);
-	$('#nextQuestionBtn').prop('disabled', true);
-	$('#stopGameShowBtn').prop('disabled', true);
+function initGameShowScreen() {
+  $('#startQuestionBtn').prop('disabled', false);
+  $('#nextQuestionBtn').prop('disabled', true);
+  $('#stopGameShowBtn').prop('disabled', true);
 
   $('#video-overlay').show();
   $('#live-bagde').hide();
@@ -116,10 +114,8 @@ function initGameShowScreen()
     });
 };
 
-
-function loadQuestion(data)
-{
-	$("#question-content").html('<div class="panel panel-default" id="answer-item-' +data.id  + '">' + 
+function loadQuestion(data) {
+  $("#question-content").html('<div class="panel panel-default" id="answer-item-' +data.id  + '">' +
                       '<div class="panel-heading">' +
                         '<h4 class="panel-title">' +
                           '<a href="#collapse' + data.id + '">' + data.title + '</a>'+
@@ -138,14 +134,13 @@ function loadQuestion(data)
                       '</div>'+
                     '</div>');
 }
-$('#startQuestionBtn').click(function()
-{
-	cur_question_idx = 0;
-	loadQuestion(list_question[cur_question_idx]);
-	$('#startQuestionBtn').prop('disabled', true);
-	if(list_question.length > 1)
-		$('#nextQuestionBtn').prop('disabled', false);
-	$('#stopGameShowBtn').prop('disabled', false);
+$('#startQuestionBtn').click(function() {
+  cur_question_idx = 0;
+  loadQuestion(list_question[cur_question_idx]);
+  $('#startQuestionBtn').prop('disabled', true);
+  if(list_question.length > 1)
+    $('#nextQuestionBtn').prop('disabled', false);
+  $('#stopGameShowBtn').prop('disabled', false);
 
   $('#countdown-to-live').text('3');
   createjs.Sound.play("beep"); 
@@ -195,10 +190,10 @@ $('#startQuestionBtn').click(function()
       }, 2000);
 
       // Run ffmpeg
-      var ffmpegCli = spawn('ffmpeg', [ 
-        '-re', '-i', "http://localhost:5123/", 
-        '-c:v', 'libx264', '-preset', 'fast', 
-        '-c:a', 'libfdk_aac', '-ab', '128k', '-ar', '44100', 
+      var ffmpegCli = spawn('ffmpeg', [
+        '-re', '-i', "http://localhost:5123/",
+        '-c:v', 'libx264', '-preset', 'fast',
+        '-c:a', 'libfdk_aac', '-ab', '128k', '-ar', '44100',
         '-f', 'flv', result.stream_url ]);
 
       // ffmpegCli.stdout.on('data', (data) => {
@@ -264,63 +259,28 @@ $('#startQuestionBtn').click(function()
   });
 });
 
-$('#nextQuestionBtn').click(function()
-{
-	if(list_question.length - 2 == cur_question_idx )
-	{
-		$('#startQuestionBtn').prop('disabled', true);
-		$('#nextQuestionBtn').prop('disabled', true);
-		$('#stopGameShowBtn').prop('disabled', false);
-	}
-	else
-	{
-		$('#startQuestionBtn').prop('disabled', true);
-		$('#nextQuestionBtn').prop('disabled', false);
-		$('#stopGameShowBtn').prop('disabled', false);
-	}
-	cur_question_idx++;
-	loadQuestion(list_question[cur_question_idx]);
+$('#nextQuestionBtn').click(function() {
+  if(list_question.length - 2 == cur_question_idx )
+  {
+    $('#startQuestionBtn').prop('disabled', true);
+    $('#nextQuestionBtn').prop('disabled', true);
+    $('#stopGameShowBtn').prop('disabled', false);
+  }
+  else
+  {
+    $('#startQuestionBtn').prop('disabled', true);
+    $('#nextQuestionBtn').prop('disabled', false);
+    $('#stopGameShowBtn').prop('disabled', false);
+  }
+  cur_question_idx++;
+  loadQuestion(list_question[cur_question_idx]);
 });
 
-$('#stopGameShowBtn').click(function()
-{
-	$('#game-show-screen').hide();
-	$('#game-result-screen').show();
+$('#stopGameShowBtn').click(function() {
+  $('#game-show-screen').hide();
+  $('#game-result-screen').show();
 
   if (mediaRecorder) {
     mediaRecorder.stop();
   }
-});
-
-var _streaming = {};
-var _comments = {};
-var token = require('electron').remote.getGlobal('access_token');
-
-$('#create-live-stream').click(function() {
-  $.ajax({
-    url: 'https://graph.facebook.com/me/live_videos',
-    method: 'post',
-    data: {
-      access_token: token,
-      published: true,
-      privacy: {value: 'EVERYONE'}
-    },
-    success: function(result) {
-      console.log(result);
-      _streaming = result;
-    }
-  });
-});
-
-$('#get-comments').click(function() {
-  $.ajax({
-    url: 'https://graph.facebook.com/' + _streaming.id + '/comments',
-    data: {
-      access_token: token,
-      limit: 2000
-    },
-    success: function(result) {
-      _comments = result;
-    }
-  });
 });

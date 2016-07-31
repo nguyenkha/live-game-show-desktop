@@ -5,8 +5,6 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="./bootstrap-material-design.min.css"> -->
-    <!-- <link rel="stylesheet" href="./ripples.min.css"> -->
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="./jquery.min.js"></script>
     <script src="./bootstrap.min.js"></script>
@@ -18,14 +16,10 @@
     <title>Live Game Show</title>
   </head>
   <body>
-<!---->
-<div class="alert alert-success" id="alert-found-righ-answer">
-    <strong>Success!</strong> We found a righ answer for this question.! Go to next question now.
-</div>
-
-
-<!--     <button id='sample-btn' class='btn btn-default'>Sample</button> -->
-
+  <!---->
+  <div class="alert alert-success" id="alert-found-righ-answer">
+    A person answered this correctly, go next?
+  </div>
     <section class="success" id="list-questions-screen" >
         <div class="container">
             <div class="row">
@@ -42,28 +36,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
-
-                  <div class="panel-group" id="accordion-list-question">
-                    <!-- <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Question 01: 1 + 1 =?</a>
-                          <button class="btn btn-default pull-right">Delete</button>
-                        </h4>
-                      </div>
-                      <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                          <ul data-role="listview">
-                            <li><a href="#">A: <span class="ui-li-count">1</span></a></li>
-                            <li><a href="#">B: <span class="ui-li-count">2</span></a></li>
-                            <li><a href="#">C: <span class="ui-li-count">3</span></a></li>
-                            <li><a href="#">D: <span class="ui-li-count">4</span></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-
+                  <div class="panel-group" id="accordion-list-question"></div>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <button class="btn btn-lg btn-success" id="startGameShowBtn">
@@ -75,7 +48,6 @@
         </div>
     </section>
 
-
     <!-- Begin Session Game Show Page-->
     <section class="success" id="game-show-screen" >
         <div class="container">
@@ -83,12 +55,10 @@
                 <div class="col-lg-12 ">
                     <h2 class="text-center">Live Game Show </h2>
                     <hr class="star-light">
-
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
-
                   <div class="panel-group">
                     <div class="panel panel-default">
                       <div id="video-container">
@@ -102,33 +72,9 @@
                       </div>
                     </div>
                   </div>
-
-
                 </div>
                 <div class="col-lg-4">
-
-                    <div class="panel-group" id="question-content">
-                    <!-- <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a href="#collapse1">Question 01: 1 + 1 =?</a>
-                          <button class="btn btn-default pull-right">Delete</button>
-                        </h4>
-                      </div>
-                      <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                          <ul data-role="listview">
-                            <li><a href="#">A: <span class="ui-li-count">1</span></a></li>
-                            <li><a href="#">B: <span class="ui-li-count">2</span></a></li>
-                            <li><a href="#">C: <span class="ui-li-count">3</span></a></li>
-                            <li><a href="#">D: <span class="ui-li-count">4</span></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-
-
+                  <div class="panel-group" id="question-content"></div>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                   <button href="#" class="btn btn-lg btn-success" id="startQuestionBtn">
@@ -148,7 +94,7 @@
 
 
 
- <!-- Begin Session Result Page-->
+    <!-- Begin Session Result Page-->
     <section class="success" id="game-result-screen" >
         <div class="container">
             <div class="row">
@@ -167,14 +113,11 @@
                         <h4 class="panel-title" style="text-align: center;">
                           <img class="img-circle text-center" src="img/profile-temp.jpg" style="width: 150px; height:150px" >
                         </h4>
-
                         <ul data-role="listview">
                             <li>Facebook User Id:  <a href="facebook-user-id">vohoailen</a></li>
                             <li>Facebook Name:  <span id="facebook-name">Vo Hoai Len</span></li>
                             <li>Total Score:  <span id="facebook-total-score">100</span></li>
                         </ul>
-
-
                       </div>
                     </div>
                   </div>
@@ -182,40 +125,15 @@
 
                 </div>
                 <div class="col-lg-4">
-
-                    <div class="panel-group" id="question-content">
-                    <!-- <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a href="#collapse1">Question 01: 1 + 1 =?</a>
-                          <button class="btn btn-default pull-right">Delete</button>
-                        </h4>
-                      </div>
-                      <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                          <ul data-role="listview">
-                            <li><a href="#">A: <span class="ui-li-count">1</span></a></li>
-                            <li><a href="#">B: <span class="ui-li-count">2</span></a></li>
-                            <li><a href="#">C: <span class="ui-li-count">3</span></a></li>
-                            <li><a href="#">D: <span class="ui-li-count">4</span></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-
-
+                  <div class="panel-group" id="question-content"></div>
                 </div>
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                </div>
+                <div class="col-lg-8 col-lg-offset-2 text-center"></div>
             </div>
         </div>
     </section>
     <!-- End Session Result Page-->
 
-
-
-<!-- Begin Add Question Modal -->
+    <!-- Begin Add Question Modal -->
     <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -252,17 +170,7 @@
         </div>
       </div>
     </div>
-<!-- End Add Question Modal -->
-
-    <!-- <button id='create-live-stream' class='btn btn-info'>Create live stream</button>
-    <button id='start-streaming' class='btn btn-info'>Start streaming</button>
-    <button id='get-comments' class='btn btn-info'>Get comments</button> -->
-
-
-
-
-
-
+    <!-- End Add Question Modal -->
   </body>
 
   <script>
