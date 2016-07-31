@@ -77,6 +77,8 @@ $('#saveQuestionBtn').click(function() {
   questionItem.answerD = "D: " + $("#answerD").val();
   questionItem.answer  = $('#questionModal input:radio:checked').val();
   questionItem.id = list_question.length + 1;
+  if(questionItem.answer == undefined)
+  	return;
   addQuestionToList(questionItem);
   list_question.push(questionItem);
   $('#questionModal').modal('toggle');
