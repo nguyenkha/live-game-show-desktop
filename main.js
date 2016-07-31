@@ -13,7 +13,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800, height: 600,
+    width: 900, height: 860,
     webPreferences: {
       webSecurity: false,
       plugins: true
@@ -29,7 +29,7 @@ function createWindow () {
       scopes: "public_profile,publish_actions",
       redirect_uri: "https://www.facebook.com/connect/login_success.html"
     };
-    var authWindow = new BrowserWindow({ width: 450, height: 300, show: false, 'node-integration': false });
+    var authWindow = new BrowserWindow({ width: 450, height: 400, show: false, 'node-integration': false });
     var facebookAuthURL = "https://www.facebook.com/dialog/oauth?client_id=" + options.client_id + "&redirect_uri=" + options.redirect_uri + "&response_type=token,granted_scopes&scope=" + options.scopes + "&display=popup";
 
     authWindow.loadURL(facebookAuthURL);
