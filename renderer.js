@@ -2,6 +2,29 @@ var _streaming = {};
 var _comments = {};
 var token = require('electron').remote.getGlobal('access_token');
 
+var fetchCommentTimer = null;
+var _questionStartTimes = [];
+
+function clearFetchCommentTimer() {
+  if (fetchCommentTimer) { clearInterval(fetchCommentTimer); }
+}
+
+function _requestComments() {
+  if (window.fbStreamObj) {
+    $.ajax({
+      url: 'https://graph.facebook.com/' + window.fbStreamObj.id + '/comments',
+      data: {
+        access_token: token,
+        limit: 2000
+      },
+      success: function(result) {
+        _comments = result.data;
+        console.log(result);
+      }
+    });
+  }
+}
+
 $('#sample-btn').click(function() {
   alert('test click');
 });
@@ -45,7 +68,6 @@ var cur_question_idx = 0;
 $('#game-show-screen').hide();
 $('#game-result-screen').hide();
 $('#startGameShowBtn').prop('disabled', true);
-$("#alert-found-righ-answer").hide();
 
 function addQuestionToList(data) {
   $("#accordion-list-question").append('<div class="panel panel-default" id="accordion-item-' +data.id  + '">' +
@@ -88,6 +110,7 @@ $('#saveQuestionBtn').click(function() {
 $('#startGameShowBtn').click(function() {
   $('#list-questions-screen').hide();
   $('#game-show-screen').show();
+  _questionStartTimes = [];
   initGameShowScreen();
 });
 
@@ -117,6 +140,7 @@ function initGameShowScreen() {
 };
 
 function loadQuestion(data) {
+  _questionStartTimes.push(new Date());
   $("#question-content").html('<div class="panel panel-default" id="answer-item-' +data.id  + '">' +
                       '<div class="panel-heading">' +
                         '<h4 class="panel-title">' +
@@ -136,6 +160,7 @@ function loadQuestion(data) {
                       '</div>'+
                     '</div>');
 }
+
 $('#startQuestionBtn').click(function() {
   cur_question_idx = 0;
   loadQuestion(list_question[cur_question_idx]);
@@ -145,17 +170,17 @@ $('#startQuestionBtn').click(function() {
   $('#stopGameShowBtn').prop('disabled', false);
 
   $('#countdown-to-live').text('3');
-  createjs.Sound.play("beep"); 
+  createjs.Sound.play("beep");
   setTimeout(function() {
     $('#countdown-to-live').text('2');
-    createjs.Sound.play("beep"); 
+    createjs.Sound.play("beep");
     setTimeout(function() {
       $('#countdown-to-live').text('1');
-      createjs.Sound.play("beep"); 
+      createjs.Sound.play("beep");
       setTimeout(function() {
         $('#countdown-to-live').text('Go!');
         $('#live-bagde').show();
-        createjs.Sound.play("beep2"); 
+        createjs.Sound.play("beep2");
         $('#video-overlay').fadeOut();
         setTimeout(function() {
           $('#countdown-to-live').text();
@@ -163,9 +188,6 @@ $('#startQuestionBtn').click(function() {
       }, 1000);
     }, 1000);
   }, 1000);
-	$("#alert-found-righ-answer").fadeTo(2000, 500).slideUp(500, function(){
-    	$("#alert-found-righ-answer").alert('close');
-	});	
 
   $.ajax({
     url: 'https://graph.facebook.com/me/live_videos',
@@ -177,19 +199,8 @@ $('#startQuestionBtn').click(function() {
     },
     success: function(result) {
       window.fbStreamObj = result;
-
-      setInterval(function() {
-        $.ajax({
-          url: 'https://graph.facebook.com/' + result.id + '/comments',
-          data: {
-            access_token: token,
-            limit: 2000
-          },
-          success: function(result) {
-            console.log(result);
-          }
-        })
-      }, 2000);
+      clearFetchCommentTimer();
+      fetchCommentTimer = setInterval(_requestComments, 2000);
 
       // Run ffmpeg
       var ffmpegCli = spawn('ffmpeg', [
@@ -284,5 +295,6 @@ $('#stopGameShowBtn').click(function() {
 
   if (mediaRecorder) {
     mediaRecorder.stop();
+    clearFetchCommentTimer();
   }
 });
