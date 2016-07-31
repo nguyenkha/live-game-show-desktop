@@ -37,7 +37,7 @@ var _questionStartTimes = ['Sun Jul 31 2016 09:07:57 GMT+0700 (ICT)]'];
 var _optsToast = {
 "closeButton": true,
 "debug": false,
-"positionClass": "toast-bottom-left",
+"positionClass": "toast-top-right",
 "onclick": null,
 "showDuration": "300",
 "hideDuration": "1000",
@@ -91,6 +91,7 @@ function _requestComments() {
       success: function(result) {
         _comments = result.data;
         console.log(_comments);
+        showLastComment();
       }
     });
   }
@@ -98,12 +99,20 @@ function _requestComments() {
 function showLastComment(){
 	if(_comments.length == 0)
 		return;
+	var flag_changed = false;
 	if(_lastestComment == undefined)
-	{
-		_lastestComment = _comments[0];
-		// _lastestCommentTime =
+		flag_changed = true;
+	for(var i = 0; i < _comments.length; i++){
+		var date = new Date(_comments[i].created_time);
+		if(date.getTime() > _lastestCommentTime)
+		{
+			flag_changed = true;
+			_lastestComment = _comments[i];
+			_lastestCommentTime = date.getTime();
+		}
 	}
-	toastr.warning(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
+	if(flag_changed)
+		toastr.success(_comments[0].from.name + " just replied on your video stream with answer: " + _comments[0].message, null, _optsToast);
 }
 
 $('#sample-btn').click(function() {
